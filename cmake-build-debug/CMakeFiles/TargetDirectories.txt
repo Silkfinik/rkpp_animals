@@ -1,0 +1,3 @@
+C:/Users/silkfinik/CLionProjects/rkpp_animals/cmake-build-debug/CMakeFiles/rkpp_animals.dir
+C:/Users/silkfinik/CLionProjects/rkpp_animals/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/silkfinik/CLionProjects/rkpp_animals/cmake-build-debug/CMakeFiles/rebuild_cache.dir
