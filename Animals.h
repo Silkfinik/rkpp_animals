@@ -4,6 +4,10 @@
 
 #include <string>
 #include <optional>
+#include <map>
+#include <vector>
+#include <iostream>
+#include <fstream>
 
 class Owner {
 private:
@@ -18,15 +22,15 @@ public:
 
     Owner() = default;
 
-    void SetName(std::string _name);
-    void SetAdress(std::string _adress);
-    void SetPhone(std::string _phone);
-    void SetBDate(std::string _b_date);
+    void SetName(const std::string& _name);
+    void SetAdress(const std::string& _adress);
+    void SetPhone(const std::string& _phone);
+    void SetBDate(const std::string& _b_date);
 
-    std::string GetName();
-    std::string GetAdress();
-    std::string GetPhone();
-    std::string GetBDate();
+    std::string GetName() const;
+    std::string GetAdress() const;
+    std::string GetPhone() const;
+    std::string GetBDate() const;
 };
 
 class Animal {
@@ -49,8 +53,8 @@ public:
     Animal (Owner _owner, std::string _name, __int16 _age) : owner(std::move(_owner)),
     a_name(std::move(_name)), age(_age), id(count++) {};
 
-    virtual void Do() const;
-    virtual ~Animal();
+    virtual void MakeSound() const;
+    virtual ~Animal() = default;
 };
 
 class Dog : public Animal {
@@ -61,11 +65,11 @@ public:
     Dog (Owner _owner, std::string _name, __int16 _age, std::string _breed) : Animal(std::move(_owner),
         std::move(_name), _age), breed(std::move(_breed)) {};
 
-    void Do() const override;
+    void MakeSound() const override;
 
-    std::string GetBreed();
+    std::string GetBreed() const;
 
-    void SetBreed(std::string _breed);
+    void SetBreed(const std::string& _breed);
 };
 
 class Cat : public Animal {
@@ -73,14 +77,14 @@ private:
     std::optional<std::string> color;
 public:
     using Animal::Animal;
-    Cat (Owner _owner, std::string _name, const __int16& _age, const std::string _color) : Animal(std::move(_owner),
+    Cat (Owner _owner, std::string _name, const __int16& _age, std::string _color) : Animal(std::move(_owner),
         std::move(_name), _age), color(std::move(_color)) {};
 
-    void Do() const override;
+    void MakeSound() const override;
 
-    std::string GetColor();
+    std::string GetColor() const;
 
-    void SetColor(std::string _color);
+    void SetColor(const std::string& _color);
 };
 
 class Parrot : public Animal {
@@ -91,11 +95,11 @@ public:
     Parrot (Owner _owner, std::string _name, const __int16& _age, const __int16& _lexicon) : Animal(std::move(_owner),
         std::move(_name), _age), lexicon(_lexicon) {};
 
-    void Do() const override;
+    void MakeSound() const override;
 
-    __int16 GetLexicon();
+    __int16 GetLexicon() const;
 
-    void SetLexicon(__int16 _lexicon);
+    void SetLexicon(const __int16& _lexicon);
 };
 
 class Fish : public Animal {
@@ -106,11 +110,11 @@ public:
     Fish (Owner _owner, std::string _name, const __int16& _age, const __int16& _avg_depth) : Animal(std::move(_owner),
         std::move(_name), _age), avg_depth(_avg_depth) {};
 
-    void Do() const override;
+    void MakeSound() const override;
 
-    __int16 GetAvgDepth();
+    __int16 GetAvgDepth() const;
 
-    void SetAvgDepth(__int16 _avg_depth);
+    void SetAvgDepth(const __int16& _avg_depth);
 };
 
 class Pig : public Animal {
@@ -121,11 +125,11 @@ private:
 public:
     using Animal::Animal;
 
-    void Do() const override;
+    void MakeSound() const override;
 
-    __int16 GetPigletSize();
+    __int16 GetPigletSize() const;
 
-    void SetPigletSize(__int16 _piglet_size);
+    void SetPigletSize(const __int16& _piglet_size);
 };
 
 

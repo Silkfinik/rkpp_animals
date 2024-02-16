@@ -1,3 +1,9 @@
 # ninja log v5
-5	79	7298091514747133	CMakeFiles/rkpp_animals.dir/main.cpp.obj	643c1099612c4107
-80	189	7298091515817133	rkpp_animals.exe	18dbe9803c8e3bae
+16	2449	7298235840012389	CMakeFiles/rkpp_animals.dir/main.cpp.obj	643c1099612c4107
+1794	2003	7298205057233806	rkpp_animals.exe	18dbe9803c8e3bae
+6	383	7298236890234257	build.ninja	90af65c8dcc5fda
+25	2647	7298230247863573	CMakeFiles/rkpp_animals.dir/Animals.cpp.obj	801fab09ba8c0824
+17	2661	7298236962070741	CMakeFiles/rkpp_animals.dir/Animals.cpp.obj	801fab09ba8c0824
+27	1948	7298237354733742	CMakeFiles/rkpp_animals.dir/Animals.cpp.obj	801fab09ba8c0824
+25	2211	7298237861761349	CMakeFiles/rkpp_animals.dir/Animals.cpp.obj	801fab09ba8c0824
+17	2769	7298237867318621	CMakeFiles/rkpp_animals.dir/main.cpp.obj	643c1099612c4107
