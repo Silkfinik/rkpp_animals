@@ -1,5 +1,7 @@
 #include "Animals.h"
 #include <iostream>
+#include <fstream>
+#include <set>
 
 __int16 Animal::count = 1;
 
@@ -216,3 +218,75 @@ void RewriteFile(const std::string& filename, const std::vector<Animal*>& pets) 
     }
 }
 
+void DifTypesByOwner(const std::vector <Animal*>& pets) {
+    std::map<std::string, std::set<std::string> > owners;
+    for (auto& pet : pets) {
+        std::string owner_name = pet->GetOwner().GetOName();
+        std::string type = typeid(*pet).name();
+        type = type.substr(1);
+        owners[owner_name].insert(type);
+    }
+    for (auto& owner : owners) {
+        std::cout << "Owner: " << owner.first << std::endl;
+        std::cout << "Amount of types: " << owner.second.size() << std::endl;
+        std::cout << "Types: ";
+        for (auto& type : owner.second) {
+            std::cout << type << " ";
+        }
+        std::cout << "\n-------------------" << std::endl;
+    }
+}
+
+void OwnersAndNamesByType(const std::vector<Animal*>& pets) {
+    std::string input_type;
+    std::cout << "Enter animal type: ";
+    std::cin >> input_type;
+    std::set<std::string> owners;
+    std::set <std::string> names;
+    for (auto& pet : pets) {
+        std::string type = typeid(*pet).name();
+        type = type.substr(1);
+        if (type == input_type) {
+            owners.insert(pet->GetOwner().GetOName());
+            names.insert(pet->GetAName());
+        }
+    }
+    std::cout << "Owner's names: ";
+    for (auto& owner : owners) {
+        std::cout << owner << " ";
+    }
+    std::cout << "\nNames: ";
+    for (auto& name : names) {
+        std::cout << name << " ";
+    }
+    std::cout << std::endl;
+}
+
+void AmountOfTypesByName(const std::vector<Animal*>& pets) {
+    std::string input_name;
+    std::cout << "Enter animal name: ";
+    std::cin >> input_name;
+    std::set<std::string> types;
+    for (auto& pet : pets) {
+        if (pet->GetAName() == input_name) {
+            std::string type = typeid(*pet).name();
+            type = type.substr(1);
+            types.insert(type);
+        }
+    }
+    std::cout << "Amount of types: " << types.size() << std::endl;
+}
+
+void PrintByID(__int16 id, const std::vector<Animal*>& pets) {
+    --id;
+    std::cout << "ID: " << pets[id]->GetId() << std::endl;
+    std::string type = typeid(*pets[id]).name();
+    std::cout << "Type: " << type.substr(1) << std::endl;
+    std::cout << "Name: " << pets[id]->GetAName() << std::endl;
+    std::cout << "Age: " << pets[id]->GetAge() << std::endl;
+    std::cout << "Owner name: " << pets[id]->GetOwner().GetOName() << std::endl;
+}
+
+void YoungestOldestByType(const std::vector<Animal*>& pets) {
+
+}
