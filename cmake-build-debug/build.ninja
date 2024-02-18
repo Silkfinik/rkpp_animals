@@ -55,12 +55,6 @@ build CMakeFiles/rkpp_animals.dir/main.cpp.obj: CXX_COMPILER__rkpp_animals_unsca
   OBJECT_DIR = CMakeFiles\rkpp_animals.dir
   OBJECT_FILE_DIR = CMakeFiles\rkpp_animals.dir
 
-build CMakeFiles/rkpp_animals.dir/Animals.cpp.obj: CXX_COMPILER__rkpp_animals_unscanned_Debug C$:/Users/silkfinik/CLionProjects/rkpp_animals/Animals.cpp || cmake_object_order_depends_target_rkpp_animals
-  DEP_FILE = CMakeFiles\rkpp_animals.dir\Animals.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\rkpp_animals.dir
-  OBJECT_FILE_DIR = CMakeFiles\rkpp_animals.dir
-
 
 # =============================================================================
 # Link build statements for EXECUTABLE target rkpp_animals
@@ -69,7 +63,7 @@ build CMakeFiles/rkpp_animals.dir/Animals.cpp.obj: CXX_COMPILER__rkpp_animals_un
 #############################################
 # Link the executable rkpp_animals.exe
 
-build rkpp_animals.exe: CXX_EXECUTABLE_LINKER__rkpp_animals_Debug CMakeFiles/rkpp_animals.dir/main.cpp.obj CMakeFiles/rkpp_animals.dir/Animals.cpp.obj
+build rkpp_animals.exe: CXX_EXECUTABLE_LINKER__rkpp_animals_Debug CMakeFiles/rkpp_animals.dir/main.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\rkpp_animals.dir

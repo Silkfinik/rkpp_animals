@@ -1,4 +1,7 @@
 #include "Animals.h"
+#include <iostream>
+
+__int16 Animal::count = 0;
 
 void Owner::SetName(const std::string& _name) {
     o_name = _name;
@@ -126,20 +129,20 @@ void read_file(const std::string& filename, std::map<std::string, std::vector<An
             a_name = cut_fill(line, ';');
             a_age = std::stoi(line);
             Owner owner(o_name, adress, phone, b_date);
-            if (a_type == "Dog") {
+            if (a_type == "Собака") {
                 pets[owner.GetName()].push_back(new Dog(owner, a_name, a_age));
             }
-            else if (a_type == "Cat") {
+            else if (a_type == "Кошка") {
                 std::string color = cut_fill(line, ';');
                 pets[owner.GetName()].push_back(new Cat(owner, a_name, a_age));
             }
-            else if (a_type == "Parrot") {
+            else if (a_type == "Попугай") {
                 pets[owner.GetName()].push_back(new Parrot(owner, a_name, a_age));
             }
-            else if (a_type == "Fish") {
+            else if (a_type == "Рыбка") {
                 pets[owner.GetName()].push_back(new Fish(owner, a_name, a_age));
             }
-            else if (a_type == "Pig") {
+            else if (a_type == "Свинка") {
                 pets[owner.GetName()].push_back(new Pig(owner, a_name, a_age));
             }
             else {

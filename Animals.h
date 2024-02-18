@@ -4,9 +4,8 @@
 
 #include <string>
 #include <optional>
-#include <map>
 #include <vector>
-#include <iostream>
+#include <map>
 #include <fstream>
 
 class Owner {
@@ -27,10 +26,10 @@ public:
     void SetPhone(const std::string& _phone);
     void SetBDate(const std::string& _b_date);
 
-    std::string GetName() const;
-    std::string GetAdress() const;
-    std::string GetPhone() const;
-    std::string GetBDate() const;
+    [[nodiscard]] std::string GetName() const;
+    [[nodiscard]] std::string GetAdress() const;
+    [[nodiscard]] std::string GetPhone() const;
+    [[nodiscard]] std::string GetBDate() const;
 };
 
 class Animal {
@@ -50,10 +49,11 @@ public:
 
     Animal (Owner _owner, std::string _name) : owner(std::move(_owner)), a_name(std::move(_name)), id(count++) {};
 
-    Animal (Owner _owner, std::string _name, __int16 _age) : owner(std::move(_owner)),
+    Animal (Owner _owner, std::string _name, const __int16& _age) : owner(std::move(_owner)),
     a_name(std::move(_name)), age(_age), id(count++) {};
 
-    virtual void MakeSound() const;
+    virtual void MakeSound() const = 0;
+
     virtual ~Animal() = default;
 };
 
@@ -62,12 +62,12 @@ private:
     std::optional<std::string> breed;
 public:
     using Animal::Animal;
-    Dog (Owner _owner, std::string _name, __int16 _age, std::string _breed) : Animal(std::move(_owner),
+    Dog (Owner _owner, std::string _name, const __int16& _age, std::string _breed) : Animal(std::move(_owner),
         std::move(_name), _age), breed(std::move(_breed)) {};
 
     void MakeSound() const override;
 
-    std::string GetBreed() const;
+    [[nodiscard]] std::string GetBreed() const;
 
     void SetBreed(const std::string& _breed);
 };
@@ -82,7 +82,7 @@ public:
 
     void MakeSound() const override;
 
-    std::string GetColor() const;
+    [[nodiscard]] std::string GetColor() const;
 
     void SetColor(const std::string& _color);
 };
