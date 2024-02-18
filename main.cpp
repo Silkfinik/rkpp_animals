@@ -1,7 +1,9 @@
 #include "Animals.cpp"
 
 int main() {
-    std::map<std::string, std::vector<Animal*> > animals;
-    read_file("input.txt", animals);
+    std::vector<Animal*> pets;
+    ReadFile("input.txt", pets);
+    PrintPets(pets);
+    RewriteFile("input.txt", pets);
     return 0;
 }

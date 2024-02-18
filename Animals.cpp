@@ -1,9 +1,38 @@
 #include "Animals.h"
 #include <iostream>
 
-__int16 Animal::count = 0;
+__int16 Animal::count = 1;
 
-void Owner::SetName(const std::string& _name) {
+void Animal::SetOwner(const Owner& _owner) {
+    owner = _owner;
+}
+
+void Animal::SetAName(const std::string& _name) {
+    a_name = _name;
+}
+
+void Animal::SetAge(const __int16& _age) {
+    age = _age;
+}
+
+std::string Animal::GetAName() const {
+    return a_name.value();
+}
+
+__int16 Animal::GetAge() const {
+    return age.value();
+}
+
+Owner& Animal::GetOwner() {
+    return owner.value();
+}
+
+__int16 Animal::GetId() const {
+    return id;
+}
+
+
+void Owner::SetOName(const std::string& _name) {
     o_name = _name;
 }
 
@@ -19,7 +48,7 @@ void Owner::SetBDate(const std::string& _b_date) {
     b_date = _b_date;
 }
 
-std::string Owner::GetName() const {
+std::string Owner::GetOName() const {
     return o_name.value();
 }
 
@@ -106,7 +135,7 @@ std::string cut_fill(std::string& line, const char& symbol) {
     return temp;
 }
 
-void read_file(const std::string& filename, std::map<std::string, std::vector<Animal*>>& pets) {
+void ReadFile(const std::string& filename, std::vector<Animal*>& pets) {
     std::ifstream input_file(filename);
     try {
         if(!input_file.is_open()) {
@@ -127,23 +156,24 @@ void read_file(const std::string& filename, std::map<std::string, std::vector<An
             b_date = cut_fill(line, ';');
             a_type = cut_fill(line, ';');
             a_name = cut_fill(line, ';');
-            a_age = std::stoi(line);
+            if(!line.empty()) {
+                a_age = std::stoi(line);
+            }
             Owner owner(o_name, adress, phone, b_date);
-            if (a_type == "Собака") {
-                pets[owner.GetName()].push_back(new Dog(owner, a_name, a_age));
+            if (a_type == "Dog") {
+                pets.push_back(new Dog(owner, a_name, a_age)) ;
             }
-            else if (a_type == "Кошка") {
-                std::string color = cut_fill(line, ';');
-                pets[owner.GetName()].push_back(new Cat(owner, a_name, a_age));
+            else if (a_type == "Cat") {
+                pets.push_back(new Cat(owner, a_name, a_age));
             }
-            else if (a_type == "Попугай") {
-                pets[owner.GetName()].push_back(new Parrot(owner, a_name, a_age));
+            else if (a_type == "Parrot") {
+                pets.push_back(new Parrot(owner, a_name, a_age));
             }
-            else if (a_type == "Рыбка") {
-                pets[owner.GetName()].push_back(new Fish(owner, a_name, a_age));
+            else if (a_type == "Fish") {
+                pets.push_back(new Fish(owner, a_name, a_age));
             }
-            else if (a_type == "Свинка") {
-                pets[owner.GetName()].push_back(new Pig(owner, a_name, a_age));
+            else if (a_type == "Pig") {
+                pets.push_back(new Pig(owner, a_name, a_age));
             }
             else {
                 throw "Unknown animal type!";
@@ -154,3 +184,35 @@ void read_file(const std::string& filename, std::map<std::string, std::vector<An
         std::cerr << err << std::endl;
     }
 }
+
+void PrintPets(const std::vector<Animal*>& pets) {
+    for (auto& pet : pets) {
+        std::string type = typeid(*pet).name();
+        type = type.substr(1);
+        std::cout << "ID: " << pet->GetId() << std::endl;
+        std::cout << "Type: " << type << std::endl;
+        std::cout << "Name: " << pet->GetAName() << std::endl;
+        std::cout << "Age: " << pet->GetAge() << std::endl;
+        std::cout << "Adress: " << pet->GetOwner().GetAdress() << std::endl;
+        std::cout << "Owner name: " << pet->GetOwner().GetOName() << std::endl;
+        std::cout << "Owner phone: " << pet->GetOwner().GetPhone() << std::endl;
+        std::cout << "Owner birth date: " << pet->GetOwner().GetBDate() << std::endl;
+        std::cout << "-------------------" << std::endl;
+    }
+}
+
+void RewriteFile(const std::string& filename, const std::vector<Animal*>& pets) {
+    std::ofstream output_file(filename);
+    for (auto& pet : pets) {
+        std::string type = typeid(*pet).name();
+        type = type.substr(1);
+        output_file << pet->GetOwner().GetOName() << ";";
+        output_file << pet->GetOwner().GetAdress() << ";";
+        output_file << pet->GetOwner().GetPhone() << ";";
+        output_file << pet->GetOwner().GetBDate() << ";";
+        output_file << type << ";";
+        output_file << pet->GetAName() << ";";
+        output_file << pet->GetAge() << std::endl;
+    }
+}
+
