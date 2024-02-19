@@ -7,7 +7,7 @@ int main() {
     DifTypesByOwner(pets);
     OwnersAndNamesByType(pets);
     AmountOfTypesByName(pets);
-    PrintByID(16, pets);
+    YoungestOldestOfEachSpecies(pets);
     RewriteFile("input.txt", pets);
     return 0;
 }

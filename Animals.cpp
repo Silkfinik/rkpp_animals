@@ -188,6 +188,7 @@ void ReadFile(const std::string& filename, std::vector<Animal*>& pets) {
 }
 
 void PrintPets(const std::vector<Animal*>& pets) {
+    std::cout << "| All animals |\n" << std::endl;
     for (auto& pet : pets) {
         std::string type = typeid(*pet).name();
         type = type.substr(1);
@@ -219,6 +220,7 @@ void RewriteFile(const std::string& filename, const std::vector<Animal*>& pets) 
 }
 
 void DifTypesByOwner(const std::vector <Animal*>& pets) {
+    std::cout << "| The number of different types of animals each owner has |\n" << std::endl;
     std::map<std::string, std::set<std::string> > owners;
     for (auto& pet : pets) {
         std::string owner_name = pet->GetOwner().GetOName();
@@ -238,6 +240,8 @@ void DifTypesByOwner(const std::vector <Animal*>& pets) {
 }
 
 void OwnersAndNamesByType(const std::vector<Animal*>& pets) {
+    std::cout << "| All owners and names of a specific kind of animal |\n" << std::endl;
+    std::cout << "Types: Dog, Cat, Parrot, Fish, Pig\n";
     std::string input_type;
     std::cout << "Enter animal type: ";
     std::cin >> input_type;
@@ -259,10 +263,11 @@ void OwnersAndNamesByType(const std::vector<Animal*>& pets) {
     for (auto& name : names) {
         std::cout << name << " ";
     }
-    std::cout << std::endl;
+    std::cout << "\n-------------------" << std::endl;
 }
 
 void AmountOfTypesByName(const std::vector<Animal*>& pets) {
+    std::cout  << "| Number of animal species with a specific name |\n" << std::endl;
     std::string input_name;
     std::cout << "Enter animal name: ";
     std::cin >> input_name;
@@ -275,6 +280,7 @@ void AmountOfTypesByName(const std::vector<Animal*>& pets) {
         }
     }
     std::cout << "Amount of types: " << types.size() << std::endl;
+    std::cout << "-------------------" << std::endl;
 }
 
 void PrintByID(__int16 id, const std::vector<Animal*>& pets) {
@@ -285,8 +291,21 @@ void PrintByID(__int16 id, const std::vector<Animal*>& pets) {
     std::cout << "Name: " << pets[id]->GetAName() << std::endl;
     std::cout << "Age: " << pets[id]->GetAge() << std::endl;
     std::cout << "Owner name: " << pets[id]->GetOwner().GetOName() << std::endl;
+    std::cout << "-------------------" << std::endl;
 }
 
-void YoungestOldestByType(const std::vector<Animal*>& pets) {
-
+void YoungestOldestOfEachSpecies(const std::vector<Animal*>& pets) {
+    std::map<std::string, std::set<__int16> > type_ages;
+    for (auto& pet : pets) {
+        std::string type = typeid(*pet).name();
+        type = type.substr(1);
+        type_ages[type].insert(pet->GetAge());
+    }
+    std::cout << "| The youngest and the oldest animal of each species |\n" <<  std::endl;
+    for (auto& type : type_ages) {
+        std::cout << "Type: " << type.first << std::endl;
+        std::cout << "Youngest: " << *type.second.begin() << std::endl;
+        std::cout << "Oldest: " << *type.second.rbegin() << std::endl;
+        std::cout << "-------------------" << std::endl;
+    }
 }
