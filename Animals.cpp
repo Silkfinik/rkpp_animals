@@ -143,6 +143,9 @@ void ReadFile(const std::string& filename, std::vector<Animal*>& pets) {
         if(!input_file.is_open()) {
             throw "File not found!";
         }
+        if(input_file.peek() == std::ifstream::traits_type::eof()) {
+            throw "File is empty!";
+        }
         std::string line;
         while (std::getline(input_file, line)){
             std::string o_name;
@@ -187,35 +190,25 @@ void ReadFile(const std::string& filename, std::vector<Animal*>& pets) {
     }
 }
 
-void PrintPets(const std::vector<Animal*>& pets) {
-    std::cout << "| All animals |\n" << std::endl;
-    for (auto& pet : pets) {
-        std::string type = typeid(*pet).name();
-        type = type.substr(1);
-        std::cout << "ID: " << pet->GetId() << std::endl;
-        std::cout << "Type: " << type << std::endl;
-        std::cout << "Name: " << pet->GetAName() << std::endl;
-        std::cout << "Age: " << pet->GetAge() << std::endl;
-        std::cout << "Adress: " << pet->GetOwner().GetAdress() << std::endl;
-        std::cout << "Owner name: " << pet->GetOwner().GetOName() << std::endl;
-        std::cout << "Owner phone: " << pet->GetOwner().GetPhone() << std::endl;
-        std::cout << "Owner birth date: " << pet->GetOwner().GetBDate() << std::endl;
-        std::cout << "-------------------" << std::endl;
-    }
+void PrintByID(__int16 id, const std::vector<Animal*>& pets) {
+    --id;
+    std::cout << "ID: " << pets[id]->GetId() << std::endl;
+    std::string type = typeid(*pets[id]).name();
+    std::cout << "Type: " << type.substr(1) << std::endl;
+    std::cout << "Name: " << pets[id]->GetAName() << std::endl;
+    std::cout << "Age: " << pets[id]->GetAge() << std::endl;
+    std::cout << "Owner name: " << pets[id]->GetOwner().GetOName() << std::endl;
+    std::cout << "Adress: " << pets[id]->GetOwner().GetAdress() << std::endl;
+    std::cout << "Owner phone: " << pets[id]->GetOwner().GetPhone() << std::endl;
+    std::cout << "Owner birth date: " << pets[id]->GetOwner().GetBDate() << std::endl;
+    std::cout << "-------------------" << std::endl;
 }
 
-void RewriteFile(const std::string& filename, const std::vector<Animal*>& pets) {
-    std::ofstream output_file(filename);
-    for (auto& pet : pets) {
-        std::string type = typeid(*pet).name();
-        type = type.substr(1);
-        output_file << pet->GetOwner().GetOName() << ";";
-        output_file << pet->GetOwner().GetAdress() << ";";
-        output_file << pet->GetOwner().GetPhone() << ";";
-        output_file << pet->GetOwner().GetBDate() << ";";
-        output_file << type << ";";
-        output_file << pet->GetAName() << ";";
-        output_file << pet->GetAge() << std::endl;
+void PrintPets(const std::vector<Animal*>& pets) {
+    std::cout << "| All animals |\n" << std::endl;
+    __int16 size = pets.size();
+    for (__int16 i = 1; i <= size; ++i) {
+        PrintByID(i, pets);
     }
 }
 
@@ -245,25 +238,33 @@ void OwnersAndNamesByType(const std::vector<Animal*>& pets) {
     std::string input_type;
     std::cout << "Enter animal type: ";
     std::cin >> input_type;
-    std::set<std::string> owners;
-    std::set <std::string> names;
-    for (auto& pet : pets) {
-        std::string type = typeid(*pet).name();
-        type = type.substr(1);
-        if (type == input_type) {
-            owners.insert(pet->GetOwner().GetOName());
-            names.insert(pet->GetAName());
+    try {
+        if (input_type != "Dog" && input_type != "Cat" && input_type != "Parrot" && input_type != "Fish" && input_type != "Pig") {
+            throw "Unknown animal type!";
         }
+        std::set<std::string> owners;
+        std::set <std::string> names;
+        for (auto& pet : pets) {
+            std::string type = typeid(*pet).name();
+            type = type.substr(1);
+            if (type == input_type) {
+                owners.insert(pet->GetOwner().GetOName());
+                names.insert(pet->GetAName());
+            }
+        }
+        std::cout << "Owner's names: ";
+        for (auto& owner : owners) {
+            std::cout << owner << " ";
+        }
+        std::cout << "\nNames: ";
+        for (auto& name : names) {
+            std::cout << name << " ";
+        }
+        std::cout << "\n-------------------" << std::endl;
     }
-    std::cout << "Owner's names: ";
-    for (auto& owner : owners) {
-        std::cout << owner << " ";
+    catch (const char* err) {
+        std::cerr << err << std::endl;
     }
-    std::cout << "\nNames: ";
-    for (auto& name : names) {
-        std::cout << name << " ";
-    }
-    std::cout << "\n-------------------" << std::endl;
 }
 
 void AmountOfTypesByName(const std::vector<Animal*>& pets) {
@@ -283,17 +284,6 @@ void AmountOfTypesByName(const std::vector<Animal*>& pets) {
     std::cout << "-------------------" << std::endl;
 }
 
-void PrintByID(__int16 id, const std::vector<Animal*>& pets) {
-    --id;
-    std::cout << "ID: " << pets[id]->GetId() << std::endl;
-    std::string type = typeid(*pets[id]).name();
-    std::cout << "Type: " << type.substr(1) << std::endl;
-    std::cout << "Name: " << pets[id]->GetAName() << std::endl;
-    std::cout << "Age: " << pets[id]->GetAge() << std::endl;
-    std::cout << "Owner name: " << pets[id]->GetOwner().GetOName() << std::endl;
-    std::cout << "-------------------" << std::endl;
-}
-
 void YoungestOldestOfEachSpecies(const std::vector<Animal*>& pets) {
     std::map<std::string, std::set<__int16> > type_ages;
     for (auto& pet : pets) {
@@ -307,5 +297,150 @@ void YoungestOldestOfEachSpecies(const std::vector<Animal*>& pets) {
         std::cout << "Youngest: " << *type.second.begin() << std::endl;
         std::cout << "Oldest: " << *type.second.rbegin() << std::endl;
         std::cout << "-------------------" << std::endl;
+    }
+}
+
+void DeletePets(std::vector<Animal*>& pets) {
+    for (auto& pet : pets) {
+        delete pet;
+    }
+    pets.clear();
+}
+
+void ClaerMemoryAndWriteFile(const std::string& filename, std::vector<Animal*>& pets) {
+    std::ofstream output_file(filename);
+    try {
+        if (!output_file.is_open()){
+            throw "File not found!";
+        }
+        for (auto& pet : pets) {
+                std::string type = typeid(*pet).name();
+                type = type.substr(1);
+                output_file << pet->GetOwner().GetOName() << ";";
+                output_file << pet->GetOwner().GetAdress() << ";";
+                output_file << pet->GetOwner().GetPhone() << ";";
+                output_file << pet->GetOwner().GetBDate() << ";";
+                output_file << type << ";";
+                output_file << pet->GetAName() << ";";
+                output_file << pet->GetAge() << std::endl;
+            }
+        output_file.close();
+        DeletePets(pets);
+    }
+    catch (const char* err) {
+        std::cerr << err << std::endl;
+    }
+}
+
+void ChangeOwnerData(Owner& owner) {
+    std::cout << "1. Change owner name\n";
+    std::cout << "2. Change owner adress\n";
+    std::cout << "3. Change owner phone\n";
+    std::cout << "4. Change owner birth date\n";
+    std::cout << "Enter the number of the action: ";
+    __int16 action;
+    std::cin >> action;
+    std::string temp;
+    switch (action) {
+        case 1:
+            std::cout << "Enter new owner name: ";
+            std::cin >> temp;
+            owner.SetOName(temp);
+            break;
+        case 2:
+            std::cout << "Enter new owner adress: ";
+            std::cin >> temp;
+            owner.SetAdress(temp);
+            break;
+        case 3:
+            std::cout << "Enter new owner phone: ";
+            std::cin >> temp;
+            owner.SetPhone(temp);
+            break;
+        case 4:
+            std::cout << "Enter new owner birth date: ";
+            std::cin >> temp;
+            owner.SetBDate(temp);
+            break;
+        default:
+            std::cerr << "Unknown action!" << std::endl;
+            break;
+    }
+}
+
+void ChangeAnimalData(std::vector <Animal*>& pets) {
+    std::cout << "Enter the ID of the animal you want to change: ";
+    __int16 id;
+    std::cin >> id;
+    PrintByID(id, pets);
+    --id;
+    std::cout << "1. Change owner\n";
+    std::cout << "2. Change animal name\n";
+    std::cout << "3. Change animal age\n";
+    std::cout << "Enter the number of the action: ";
+    __int16 action;
+    std::cin >> action;
+    std::string temp;
+    switch (action) {
+        case 1:
+            ChangeOwnerData(pets[id]->GetOwner());
+            break;
+        case 2:
+            std::cout << "Enter new animal name: ";
+            std::cin >> temp;
+            pets[id]->SetAName(temp);
+            break;
+        case 3:
+            std::cout << "Enter new animal age: ";
+            __int16 age;
+            std::cin >> age;
+            pets[id]->SetAge(age);
+            break;
+        default:
+            std::cerr << "Unknown action!" << std::endl;
+            break;
+    }
+}
+
+void Menu (std::vector<Animal*>& pets) {
+    __int16 action;
+    bool flag = true;
+    while (flag) {
+        std::cout << "1. Print all animals\n";
+        std::cout << "2. The number of different types of animals each owner has\n";
+        std::cout << "3. All owners and names of a specific kind of animal\n";
+        std::cout << "4. Number of animal species with a specific name\n";
+        std::cout << "5. The youngest and the oldest animal of each species\n";
+        std::cout << "6. Change animal data by ID\n";
+        std::cout << "0. Exit\n";
+        std::cout << "Enter the number of the action: ";
+        std::cin >> action;
+        switch (action) {
+            case 1:
+                PrintPets(pets);
+                break;
+            case 2:
+                DifTypesByOwner(pets);
+                break;
+            case 3:
+                OwnersAndNamesByType(pets);
+                break;
+            case 4:
+                AmountOfTypesByName(pets);
+                break;
+            case 5:
+                YoungestOldestOfEachSpecies(pets);
+                break;
+            case 6:
+                ChangeAnimalData(pets);
+                break;
+            case 0:
+                ClaerMemoryAndWriteFile("input.txt", pets);
+                flag = false;
+                break;
+            default:
+                std::cerr << "Unknown action!" << std::endl;
+                break;
+        }
     }
 }

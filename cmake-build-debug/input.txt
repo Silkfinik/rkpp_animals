@@ -12,5 +12,5 @@ Makar;st. Lenina, 2, Minsk;+375 (29) 123-45-67;14.05.1995;Parrot;Kesha;2
 Makar;st. Lenina, 2, Minsk;+375 (29) 123-45-67;14.05.1995;Parrot;Kesha;2
 Makar;st. Lenina, 2, Minsk;+375 (29) 123-45-67;14.05.1995;Parrot;Kesha;2
 Makar;st. Lenina, 2, Minsk;+375 (29) 123-45-67;14.05.1995;Parrot;Kesha;2
-Makar;st. Lenina, 2, Minsk;+375 (29) 123-45-67;14.05.1995;Dog;Kesha;2
+Makar;st. Lenina, 2, Minsk;+375 (29) 123-45-67;14.05.1994;Dog;Kesha;2
 Alexey;st. Lenina, 2, Minsk;+375 (29) 123-45-67;14.05.1995;Parrot;Kesha;2

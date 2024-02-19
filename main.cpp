@@ -3,11 +3,6 @@
 int main() {
     std::vector<Animal*> pets;
     ReadFile("input.txt", pets);
-    PrintPets(pets);
-    DifTypesByOwner(pets);
-    OwnersAndNamesByType(pets);
-    AmountOfTypesByName(pets);
-    YoungestOldestOfEachSpecies(pets);
-    RewriteFile("input.txt", pets);
+    Menu(pets);
     return 0;
 }
