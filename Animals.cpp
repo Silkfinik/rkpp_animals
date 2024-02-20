@@ -139,55 +139,46 @@ std::string cut_fill(std::string& line, const char& symbol) {
 
 void ReadFile(const std::string& filename, std::vector<Animal*>& pets) {
     std::ifstream input_file(filename);
-    try {
-        if(!input_file.is_open()) {
-            throw "File not found!";
+    if(!input_file.is_open()) {
+        throw "Input file not found!";
+    }
+    if(input_file.peek() == std::ifstream::traits_type::eof()) {
+        throw "Input file is empty!";
+    }
+    std::string line;
+    while (std::getline(input_file, line)) {
+        std::string o_name;
+        std::string adress;
+        std::string phone;
+        std::string b_date;
+        std::string a_type;
+        std::string a_name;
+        __int16 a_age;
+        o_name = cut_fill(line, ';');
+        adress = cut_fill(line, ';');
+        phone = cut_fill(line, ';');
+        b_date = cut_fill(line, ';');
+        a_type = cut_fill(line, ';');
+        a_name = cut_fill(line, ';');
+        if(!line.empty()) {
+            a_age = std::stoi(line);
         }
-        if(input_file.peek() == std::ifstream::traits_type::eof()) {
-            throw "File is empty!";
-        }
-        std::string line;
-        while (std::getline(input_file, line)){
-            std::string o_name;
-            std::string adress;
-            std::string phone;
-            std::string b_date;
-            std::string a_type;
-            std::string a_name;
-            __int16 a_age;
-            o_name = cut_fill(line, ';');
-            adress = cut_fill(line, ';');
-            phone = cut_fill(line, ';');
-            b_date = cut_fill(line, ';');
-            a_type = cut_fill(line, ';');
-            a_name = cut_fill(line, ';');
-            if(!line.empty()) {
-                a_age = std::stoi(line);
-            }
-            Owner owner(o_name, adress, phone, b_date);
-            if (a_type == "Dog") {
-                pets.push_back(new Dog(owner, a_name, a_age)) ;
-            }
-            else if (a_type == "Cat") {
-                pets.push_back(new Cat(owner, a_name, a_age));
-            }
-            else if (a_type == "Parrot") {
-                pets.push_back(new Parrot(owner, a_name, a_age));
-            }
-            else if (a_type == "Fish") {
-                pets.push_back(new Fish(owner, a_name, a_age));
-            }
-            else if (a_type == "Pig") {
-                pets.push_back(new Pig(owner, a_name, a_age));
-            }
-            else {
-                throw "Unknown animal type!";
-            }
+        Owner owner(o_name, adress, phone, b_date);
+        if (a_type == "Dog") {
+            pets.push_back(new Dog(owner, a_name, a_age)) ;
+        } else if (a_type == "Cat") {
+            pets.push_back(new Cat(owner, a_name, a_age));
+        } else if (a_type == "Parrot") {
+            pets.push_back(new Parrot(owner, a_name, a_age));
+        } else if (a_type == "Fish") {
+            pets.push_back(new Fish(owner, a_name, a_age));
+        } else if (a_type == "Pig") {
+            pets.push_back(new Pig(owner, a_name, a_age));
+        } else {
+            throw "Unknown animal type in input file!";
         }
     }
-    catch (const char* err) {
-        std::cerr << err << std::endl;
-    }
+    input_file.close();
 }
 
 void PrintByID(__int16 id, const std::vector<Animal*>& pets) {

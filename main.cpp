@@ -2,7 +2,11 @@
 
 int main() {
     std::vector<Animal*> pets;
-    ReadFile("input.txt", pets);
-    Menu(pets);
+    try {
+        ReadFile("input.txt", pets);
+        Menu(pets);
+    } catch (const char* err) {
+        std::cerr << err << std::endl;
+    }
     return 0;
 }
